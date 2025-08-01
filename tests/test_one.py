@@ -1,38 +1,48 @@
 from datetime import time
 from pprint import pprint
+import time
+
+
+def is_dark_theme_enabled(current_time, user_choice):
+
+    if user_choice is True:
+        print('Пользователь включил темную тему')
+        return True
+    elif user_choice is False:
+        print('Пользователь включил светлую тему')
+        return False
+    else:
+        # Автоматический режим по времени
+        if current_time.hour >= 22 or current_time.hour <= 6:
+            print('Включена автоматически темная тема по времени')
+            return True
+        else:
+            print('Включена автоматически светлая тема по времени')
+            return False
 
 
 def test_dark_theme_by_time():
-    start=22
-    end=6
-    current_time=time(hour=23)
-    is_dark_theme=False
+    start = 22
+    end = 6
+    current_time = time(hour=23)
+    is_dark_theme = False
+
     if current_time.hour >= start or current_time.hour <= end:
-      is_dark_theme=True
-      print('is_dark_theme=black')
+        is_dark_theme = True
+        print('is_dark_theme=black')
+
     current_time = time(hour=23)
     assert is_dark_theme is True
 
-from datetime import time
 
 def test_dark_theme_by_time_and_user_choice():
     current_time = time(hour=16)
     dark_theme_enabled_by_user = None
-    is_dark_theme = None
 
-    if dark_theme_enabled_by_user is True:
-        print('Пользователь включил темную тему')
-        is_dark_theme = True
-
-    elif dark_theme_enabled_by_user is False:
-        print('Пользователь включил светлую тему')
-        is_dark_theme = False
-
-    else:
-        print('Включена автоматически темная тема по времени')
-        is_dark_theme = True
+    is_dark_theme = is_dark_theme_enabled(current_time, dark_theme_enabled_by_user)
 
     assert is_dark_theme is True
+
 
 def test_find_suitable_user():
     users = [
@@ -48,7 +58,6 @@ def test_find_suitable_user():
             suitable_users = user
             break
     assert suitable_users == {"name": "Olga", "age": 45}
-
 
     suitable_users = []
     for user in users:
